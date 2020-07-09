@@ -1,10 +1,12 @@
-import java.time.Duration
+import java.time.{Duration, Instant}
 import java.util
 
 import com.sksamuel.avro4s.AvroInputStream
 import org.apache.kafka.clients.consumer.KafkaConsumer
 
 import scala.collection.JavaConverters._
+
+case class MyRecord(id: String, time: Instant)
 
 object Consumer {
 
@@ -20,7 +22,7 @@ object Consumer {
       val record = consumer.poll(Duration.ofMillis(1000)).asScala
       for (data <- record.iterator) {
         val bytes = data.value()
-        val is = AvroInputStream.data[Record](bytes)
+        val is = AvroInputStream.data[MyRecord](bytes)
         val users = is.iterator.toSet
         is.close()
 
