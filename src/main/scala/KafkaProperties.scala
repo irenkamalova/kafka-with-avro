@@ -1,3 +1,4 @@
+import java.io.File
 import java.util.Properties
 
 import com.sksamuel.avro4s.kafka.GenericSerde
@@ -8,7 +9,7 @@ import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.common.serialization.{StringDeserializer, StringSerializer}
 
 object KafkaProperties {
-  val config = ConfigFactory.defaultApplication().getConfig("KafkaConfig.kafka")
+  val config = ConfigFactory.parseFile(new File("application.conf")).getConfig("KafkaConfig.kafka")
   val dataSerde2 = new GenericSerde[Seq[Record]]
   val topic = config.getString("topic")
   val props = new Properties()

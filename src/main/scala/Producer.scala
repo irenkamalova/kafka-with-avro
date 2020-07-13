@@ -1,6 +1,8 @@
 import com.sksamuel.avro4s.{AvroSchema, RecordFormat}
 import org.apache.kafka.clients.producer._
 
+case class Record(id: String)
+
 object Producer {
 
   def main(args: Array[String]): Unit = {
