@@ -15,7 +15,7 @@ object Producer {
     val producer = new KafkaProducer[String, Array[Byte]](Properties.props)
     val outputStream = new ByteArrayOutputStream()
     val records = Seq(Record("id1"), Record("id2"))
-    val os = AvroOutputStream.data[Record](outputStream)
+    val os = AvroOutputStream.data[Record].to(outputStream).build()
     os.write(records)
     os.flush()
     os.close()

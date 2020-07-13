@@ -22,7 +22,7 @@ object Consumer {
       val record = consumer.poll(Duration.ofMillis(1000)).asScala
       for (data <- record.iterator) {
         val bytes = data.value()
-        val is = AvroInputStream.data[MyRecord](bytes)
+        val is = AvroInputStream.data[MyRecord].from(bytes).build
         val users = is.iterator.toSet
         is.close()
 

@@ -1,3 +1,4 @@
+import java.io.File
 import java.util.Properties
 
 import com.typesafe.config.ConfigFactory
@@ -10,7 +11,7 @@ import org.apache.kafka.common.serialization.ByteArrayDeserializer
 
 
 object Properties {
-  val config = ConfigFactory.defaultApplication().getConfig("KafkaConfig.kafka")
+  val config = ConfigFactory.parseFile(new File("application.conf")).getConfig("KafkaConfig.kafka")
   //val dataSerde2 = new GenericSerde[Seq[Record]]
   val topic = config.getString("topic")
   val props = new Properties()
