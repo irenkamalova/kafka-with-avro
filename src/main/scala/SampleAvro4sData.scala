@@ -1,6 +1,5 @@
 import java.io.ByteArrayOutputStream
 
-import com.sksamuel.avro4s.{AvroInputStream, AvroOutputStream}
 
 object SampleAvro4sData {
 

@@ -1,9 +1,6 @@
-import java.io.ByteArrayOutputStream
+import java.time.Instant
 
-import com.sksamuel.avro4s.{AvroInputStream, AvroOutputStream, AvroSchema, RecordFormat}
 import org.apache.kafka.clients.producer._
-import org.apache.avro.generic.GenericRecord
-import org.apache.avro.specific.SpecificRecordBase
 
 object Producer {
 
@@ -12,17 +9,10 @@ object Producer {
   }
 
   def writeToKafka(): Unit = {
-    val producer = new KafkaProducer[String, Array[Byte]](Properties.props)
-    val outputStream = new ByteArrayOutputStream()
-    val records = Seq(Record("id1"), Record("id2"))
-    val os = AvroOutputStream.data[Record].to(outputStream).build()
-    os.write(records)
-    os.flush()
-    os.close()
+    val producer = new KafkaProducer[String, MyRecord](Properties.props)
+    val myRecord = MyRecord("id", Instant.now())
 
-    val bytes = outputStream.toByteArray
-
-    val producerRecord = new ProducerRecord[String, Array[Byte]](Properties.topic, null, bytes)
+    val producerRecord = new ProducerRecord[String, MyRecord](Properties.topic, null, myRecord)
     val sendMessage = producer.send(producerRecord)
     val result = sendMessage.get()
     println(result.partition())
